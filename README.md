@@ -1,36 +1,36 @@
 # WhatsApp Offline Installer & Downloader
 
-Набор скриптов для обхода ограничений Microsoft Store, загрузки всех необходимых оффлайн-пакетов WhatsApp Desktop и их автоматической установки без интернета.
+A set of scripts designed to bypass Microsoft Store restrictions, download all required offline packages for WhatsApp Desktop, and automatically install them without an internet connection.
 
-## 🚀 Особенности
+## 🚀 Features
 
-- **Обход блокировок Microsoft Store**: Ищет прямые ссылки на скачивание установочных файлов UWP через `store.rg-adguard.net`.
-- **Обход защиты Cloudflare**: Использует связку Python и Playwright (эмуляция браузера Chromium), которая успешно обходит капчи и блокировки, с которыми не справляются обычные curl-запросы в PowerShell.
-- **Умная выгрузка ссылок (JSON)**: Парсит таблицу загрузок, автоматически фильтруя мусорные `.BlockMap` файлы и выбирая только нужные `x64` и `neutral` архитектуры.
-- **Создание автономного установщика**: Автоматически скачивает требуемые библиотеки (`Microsoft.VCLibs`, `Microsoft.WindowsAppRuntime`) и сам `.msixbundle` WhatsApp, генерируя `.bat` файл для установки в один клик.
+- **Microsoft Store Bypass**: Fetches raw download links for UWP installation files directly via `store.rg-adguard.net`.
+- **Cloudflare Evasion**: Uses Python and Playwright (Chromium browser emulation) to successfully bypass captchas and blocks that typical PowerShell curl requests cannot handle.
+- **Smart Link Extraction (JSON)**: Parses the download table, automatically filtering out junk `.BlockMap` files and selecting only the required `x64` and `neutral` architectures.
+- **Standalone Installer Generation**: Automatically downloads the required libraries (`Microsoft.VCLibs`, `Microsoft.WindowsAppRuntime`) and the WhatsApp `.msixbundle` itself, generating a 1-click `.bat` installer.
 
-## 📥 Как использовать
+## 📥 How to Use
 
-Скрипты разбиты на два логических этапа:
+The workflow is split into two logical stages:
 
-### Этап 1: Подготовка файлов (на компьютере с интернетом)
-1. Откройте PowerShell.
-2. Запустите скрипт загрузки:
+### Stage 1: Preparation (On a PC WITH Internet access)
+1. Open PowerShell.
+2. Run the download script:
    ```powershell
    .\download_whatsapp_packages.ps1
    ```
-3. Скрипт запустит парсер (либо исходник `get_links.py`, либо скомпилированный `get_links.exe`), обойдет Cloudflare, сохранит ссылки в `whatsapp_links.json` и автоматически выкачает все нужные пакеты в папку `WhatsApp_Offline_Packages`.
-4. Внутри папки будет заранее сгенерирован файл под инфраструктуру `install_whatsapp_offline.bat`.
+3. The script will launch the parser (either the `get_links.py` source or the compiled `get_links.exe`), bypass Cloudflare, save links to `whatsapp_links.json`, and automatically download all necessary packages into the `WhatsApp_Offline_Packages` folder.
+4. An `install_whatsapp_offline.bat` auto-installer file will be pre-generated inside that folder.
 
-### Этап 2: Оффлайн-установка (на целевом сервере без интернета)
-1. Скопируйте всю папку `WhatsApp_Offline_Packages` на целевой компьютер или сервер.
-2. Запустите файл `install_whatsapp_offline.bat` (желательно от имени Администратора).
-3. Скрипт автоматически установит зависимости в правильном порядке (VCLibs -> UI.Xaml -> WindowsAppRuntime -> WhatsAppDesktop) и запустит приложение.
+### Stage 2: Offline Installation (On the target PC WITHOUT Internet)
+1. Copy the entire `WhatsApp_Offline_Packages` folder to the target computer or server.
+2. Run the `install_whatsapp_offline.bat` file (preferably as Administrator).
+3. The script will automatically install dependencies in the correct order (VCLibs -> UI.Xaml -> WindowsAppRuntime -> WhatsAppDesktop) and launch the application.
 
-## ⚙️ Технические требования для разработчиков
-Если вы хотите запускать парсер из исходников или пересобрать `.exe` файл:
+## ⚙️ Technical Requirements for Developers
+If you wish to run the parser from source or rebuild the `.exe` file:
 - Python 3.10+
 - `pip install playwright`
 - `playwright install chromium`
 
-*Важное примечание: Чтобы скомпилировать рабочий `get_links.exe` через PyInstaller со встроенным браузером, перед компиляцией обязательно установите переменную среды `set PLAYWRIGHT_BROWSERS_PATH=0`.*
+*Important Note: If you want to compile a working `get_links.exe` via PyInstaller with the embedded browser, you must set the environment variable `set PLAYWRIGHT_BROWSERS_PATH=0` before compilation.*
