@@ -15,6 +15,7 @@ The workflow is split into two logical stages:
 
 ### Stage 1: Preparation (On a PC WITH Internet access)
 1. Open PowerShell.
+   *(Note: If you get a red error about "Execution policies" or "digitally signed", run PowerShell as Administrator and run: `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass`, or start the script with `powershell -ExecutionPolicy Bypass -File .\download_whatsapp_packages.ps1`)*
 2. Run the download script:
    ```powershell
    .\download_whatsapp_packages.ps1
