@@ -1,0 +1,20 @@
+# Virtual Environment
+.venv/
+
+# Build artifacts
+build/
+dist/
+*.pyc
+__pycache__/
+*.spec
+
+# Output files and executables
+*.exe
+WhatsApp_Offline_Packages/
+whatsapp_links.json
+
+# Scratch/Test files
+links.txt
+test.py
+test_api.ps1
+test_api_out.txt
