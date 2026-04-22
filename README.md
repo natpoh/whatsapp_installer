@@ -19,7 +19,7 @@ The workflow is split into two logical stages:
    ```powershell
    .\download_whatsapp_packages.ps1
    ```
-3. The script will launch the parser (either the `get_links.py` source or the compiled `get_links.exe`), bypass Cloudflare, save links to `whatsapp_links.json`, and automatically download all necessary packages into the `WhatsApp_Offline_Packages` folder.
+3. The script will automatically launch the parser (`get_links.exe`), bypass Cloudflare, save links to `whatsapp_links.json`, and automatically download all necessary packages into the `WhatsApp_Offline_Packages` folder. *(Note: You do not need to run `get_links.exe` manually, the PowerShell script handles it).*
 4. An `install_whatsapp_offline.bat` auto-installer file will be pre-generated inside that folder.
 
 ### Stage 2: Offline Installation (On the target PC WITHOUT Internet)
