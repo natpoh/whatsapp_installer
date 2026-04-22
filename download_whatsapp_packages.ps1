@@ -48,6 +48,8 @@ echo.
 
 :: Переходим в папку скрипта, чтобы искать файлы рядом
 cd /d "%~dp0"
+echo Текущая рабочая папка: %CD%
+echo.
 
 :: Проверяем наличие скачанных файлов
 if not exist *WhatsAppDesktop*msixbundle (
@@ -63,19 +65,19 @@ echo 1. Установка пакетов... Важен правильный п�
 echo.
 
 echo Установка VCLibs...
-powershell -NoProfile -Command "Get-ChildItem '.' -Filter 'Microsoft.VCLibs*appx' | Sort-Object Name -Descending | ForEach-Object { Add-AppxPackage `$_.FullName }"
+powershell -ExecutionPolicy Bypass -NoProfile -Command "Get-ChildItem '.' -Filter 'Microsoft.VCLibs*appx' | Sort-Object Name -Descending | ForEach-Object { Write-Host 'Установка: ' `$_.Name; Add-AppxPackage `$_.FullName }"
 
 echo.
 echo Установка UI.Xaml...
-powershell -NoProfile -Command "Get-ChildItem '.' -Filter 'Microsoft.UI.Xaml*appx' | Sort-Object Name -Descending | ForEach-Object { Add-AppxPackage `$_.FullName }"
+powershell -ExecutionPolicy Bypass -NoProfile -Command "Get-ChildItem '.' -Filter 'Microsoft.UI.Xaml*appx' | Sort-Object Name -Descending | ForEach-Object { Write-Host 'Установка: ' `$_.Name; Add-AppxPackage `$_.FullName }"
 
 echo.
 echo Установка WindowsAppRuntime...
-powershell -NoProfile -Command "Get-ChildItem '.' -Filter 'Microsoft.WindowsAppRuntime*msix' | Sort-Object Name -Descending | ForEach-Object { Add-AppxPackage `$_.FullName }"
+powershell -ExecutionPolicy Bypass -NoProfile -Command "Get-ChildItem '.' -Filter 'Microsoft.WindowsAppRuntime*msix' | Sort-Object Name -Descending | ForEach-Object { Write-Host 'Установка: ' `$_.Name; Add-AppxPackage `$_.FullName }"
 
 echo.
 echo Установка WhatsApp Desktop...
-powershell -NoProfile -Command "Get-ChildItem '.' -Filter '*WhatsAppDesktop*msixbundle' | Sort-Object Name -Descending | Select-Object -First 1 | ForEach-Object { Add-AppxPackage `$_.FullName }"
+powershell -ExecutionPolicy Bypass -NoProfile -Command "Get-ChildItem '.' -Filter '*WhatsAppDesktop*msixbundle' | Sort-Object Name -Descending | Select-Object -First 1 | ForEach-Object { Write-Host 'Установка: ' `$_.Name; Add-AppxPackage `$_.FullName }"
 
 echo.
 color 0A
@@ -87,14 +89,15 @@ echo.
 echo 2. Попытка запуска WhatsApp...
 start "" "shell:AppsFolder\5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App" >nul 2>&1
 
-if %errorlevel% neq 0 (
+if errorlevel 1 (
     echo.
     echo Не удалось запустить WhatsApp автоматически. 
     echo Найдите его в меню "Пуск".
 )
 
 echo.
-pause
+echo Нажмите любую клавишу для выхода...
+pause >nul
 "@
 
 $BatPath = Join-Path -Path $DownloadDir -ChildPath "install_whatsapp_offline.bat"
